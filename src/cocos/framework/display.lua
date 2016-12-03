@@ -166,6 +166,7 @@ display.COLOR_BLACK = cc.c3b(0, 0, 0)
 display.COLOR_RED   = cc.c3b(255, 0, 0)
 display.COLOR_GREEN = cc.c3b(0, 255, 0)
 display.COLOR_BLUE  = cc.c3b(0, 0, 255)
+display.COLOR_YELLOW = cc.c3b(255,255,0)
 
 display.AUTO_SIZE      = 0
 display.FIXED_SIZE     = 1
@@ -243,6 +244,7 @@ function display.newScene(name, params)
 end
 
 function display.wrapScene(scene, transition, time, more)
+    transition = transition or "RANDOM"
     local key = string.upper(tostring(transition))
 
     if key == "RANDOM" then
@@ -275,6 +277,17 @@ function display.runScene(newScene, transition, time, more)
     else
         director:runWithScene(newScene)
     end
+end
+
+function display.pushScene(Scene,transition, time, more)
+    if transition then
+        Scene = display.wrapScene(Scene, transition, time, more)
+    end
+    director:pushScene(Scene)
+end
+
+function display.popScene()
+   director:popScene()
 end
 
 function display.getRunningScene()
